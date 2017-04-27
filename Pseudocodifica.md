@@ -58,19 +58,14 @@ ___________________________________
             emit (prodID, userId)
 ##### Reduce(key, record):
         for each value in record:
-        add to ordered list
-        for each value in list:
             user1 = value.userId
                 for each value2 in record[value:]:
                     user2 = value2.userId
-                        newKey = user1, user2
-                        emit (newKey, prodId)
+                    newKey = orderCouple(user1, user2)
+                    emit (newKey, prodId)
 ##### Map2(key, record):
         emit (key, record)
 ##### Reduce2(key, record):
-        count = 0;
-        for each value in record:
-            count++
-        if count >=3
-        emit (key, record)
+        if record.length >= 3
+            emit (key, record)
             
