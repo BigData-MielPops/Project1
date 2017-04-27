@@ -54,19 +54,17 @@
 ___________________________________
 ## Terzo task (Opzionale)
 ##### Map(key, record):
-        value = (userId, score)
-        emit (prodID, value)
+        if score >= 4:
+            emit (prodID, userId)
 ##### Reduce(key, record):
         for each value in record:
-            if value.score >= 4
+        add to ordered list
+        for each value in list:
+            user1 = value.userId
                 for each value2 in record[value:]:
-                    if value2.score >= 4
-                        newKey = value.userId, value2.userId
+                    user2 = value2.userId
+                        newKey = user1, user2
                         emit (newKey, prodId)
-##### CleanUp(results):
-        for each key, value in results
-            emit (key, value)
-            
 ##### Map2(key, record):
         emit (key, record)
 ##### Reduce2(key, record):
