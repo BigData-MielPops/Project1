@@ -19,19 +19,22 @@ public class Job1Reducer1 extends  Reducer<Job1KeyWritable, IntWritable, Text, T
 		System.out.println();
 
 		Integer totalCount = 0;
-		Integer maxSum = 0;
+		Float sum = 0f;
+		System.out.println("---");
 		for(IntWritable data : values)
 		{
-			Integer app = data.get();
-			if (app > maxSum) {
-				maxSum = app;
-			}
+			System.out.println(data.get());
+			sum += data.get();
+			System.out.println(sum);
 			totalCount++;
+			System.out.println(totalCount);
+			System.out.println();
 		}
-		System.out.println(maxSum);
+		System.out.println("---");
+		System.out.println(sum);
 		System.out.println(totalCount);
 
-		float avg = (float)maxSum / totalCount;		
+		Float avg = sum / totalCount;		
 
 		String topKey = String.valueOf(key.getYear()) + "\t" + String.format("%02d", key.getMonth());
 		if(topByMonth.get(topKey) == null) {

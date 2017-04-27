@@ -1,20 +1,17 @@
 # Pseudocodifica
 ## Primo task
-    create global Map scoreSum
 ##### Map(key, record):
         newKey = month + year + prodID
-        scoreSum[newKey] = scoreSum[newKey] + score
-        emit (newKey, scoreSum[newKey])
+        emit (newKey, score)
 #####
     create global OrderedMap results
-##### Reduce(key, record):
+##### Reduce(key, records):
         create Array[5] top5
         month, year, prodId = key.getData()
-        for each value in record:
-            if value > maxScore
-                maxScore = value
-            totalCount ++
-        avg = maxScore / totalCount
+        for each score in records:
+            totalScore += score
+            totalCount++
+        avg = totalScore / totalCount
         newKey = month + year
         value = (avg, prodId)
         top5.insertInOrderByAvg(value)

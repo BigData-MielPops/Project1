@@ -3,17 +3,11 @@ package project1;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-
 public class Job1Mapper1 extends Mapper<Object, Text, Job1KeyWritable, IntWritable> {
-
-	private static Map<String, Integer> sum = new HashMap<String, Integer>();
 
 	public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 		System.out.println("==============");
@@ -39,6 +33,7 @@ public class Job1Mapper1 extends Mapper<Object, Text, Job1KeyWritable, IntWritab
 		System.out.println();
 
 		Date date = new Date();
+		Integer score = 0;
 
 		boolean passed = false;
 		Integer offset = 0;
@@ -51,7 +46,7 @@ public class Job1Mapper1 extends Mapper<Object, Text, Job1KeyWritable, IntWritab
 				Integer test2;
 				test2 = Integer.parseInt(columns[4+offset]);
 				test2 = Integer.parseInt(columns[5+offset]);
-				test2 = Integer.parseInt(columns[6+offset]);
+				score = Integer.parseInt(columns[6+offset]);
 				date = new Date(Long.parseLong(columns[7+offset])*1000);
 				passed = true;
 			}
@@ -68,30 +63,17 @@ public class Job1Mapper1 extends Mapper<Object, Text, Job1KeyWritable, IntWritab
 		System.out.println(month);
 		System.out.println();
 
-		Integer score = Integer.parseInt(columns[6+offset]);
-
 		System.out.println(score);
-
-		if(sum.get(month+productId) != null) {
-			sum.put(month+year+productId, sum.get(month+year+productId)+score);
-		}
-		else {
-			sum.put(month+year+productId, score);
-		}
-
-		System.out.println(sum.get(month+year+productId));
 		System.out.println();
 
 		Job1KeyWritable k = new Job1KeyWritable(month, year, new Text(productId));
-		IntWritable d = new IntWritable(sum.get(month+year+productId));
 
 		System.out.println("DONE");
 		System.out.println();
 
 		System.out.println(k);
-		System.out.println(d);
 
-		context.write(k, d);
+		context.write(k, new IntWritable(score));
 		return;
 
 	}
