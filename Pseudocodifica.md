@@ -39,3 +39,43 @@
             emit (key, value)
 
 ## Terzo task (Opzionale)
+##### Map(key, record):
+        value = (userId, score)
+        emit (prodID, value)
+#####
+    create global Map<coppia di utenti, lista di prodotti> results
+##### Reduce(key, record):
+        for each value in record:
+            if value.score >= 4
+                for each value2 in record[value:]:
+                    if value2.score >= 4
+                        results.insertIntelligente(value.userId, value2.userId, prodId)
+##### CleanUp(results):
+        for each key, value in results
+            if value.lenght >= 3
+            emit (key, value)
+___________________________________
+## Terzo task (Opzionale)
+##### Map(key, record):
+        value = (userId, score)
+        emit (prodID, value)
+##### Reduce(key, record):
+        for each value in record:
+            if value.score >= 4
+                for each value2 in record[value:]:
+                    if value2.score >= 4
+                        newKey = value.userId, value2.userId
+                        emit (newKey, prodId)
+##### CleanUp(results):
+        for each key, value in results
+            emit (key, value)
+            
+##### Map2(key, record):
+        emit (key, record)
+##### Reduce2(key, record):
+        count = 0;
+        for each value in record:
+            count++
+        if count >=3
+        emit (key, record)
+            
