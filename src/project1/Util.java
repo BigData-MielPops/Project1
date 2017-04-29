@@ -1,7 +1,7 @@
 package project1;
 
 public class Util {
-
+	
 	public static void insert(String val, String[] floats){
 		System.out.println("==insert==");
 		System.out.println(val);

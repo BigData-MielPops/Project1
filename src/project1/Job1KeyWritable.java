@@ -39,8 +39,8 @@ public class Job1KeyWritable implements WritableComparable<Job1KeyWritable> {
         this.year = year;
         this.productId = productId;
     }
-
-    @Override
+    
+	@Override
 	public String toString() {
 		return month + "\t" + year + "\t" + productId;
 	}
