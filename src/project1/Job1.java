@@ -31,6 +31,10 @@ public class Job1 {
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
+		// With only 2 arguments there will be only 1 Reducer to keep the Cleanup ordering consistant.
+		// But if the user specifies a min year and a max year, then there will be a higher number 
+		// of Reducers and a custom Partitioner to give 1 year to each Reducer, in order to keep a 
+		// consistant ordering in the Cleanup.
 		try {
 			minYear = Integer.parseInt(args[2]);
 			maxYear = Integer.parseInt(args[3]);
