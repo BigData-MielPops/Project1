@@ -32,7 +32,7 @@ public class Job1Reducer extends  Reducer<Job1KeyWritable, IntWritable, Text, Te
 			topByMonth.put(String.valueOf(topKey), new String[5]);
 		}
 
-		Util.insert(String.valueOf(avg) + separator + key.getProductId(), topByMonth.get(topKey));
+		Util.insertInOrderByScore(String.valueOf(avg) + separator + key.getProductId(), topByMonth.get(topKey));
 	}
 
 	protected void cleanup(Context context) throws IOException,

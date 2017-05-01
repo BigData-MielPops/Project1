@@ -22,7 +22,7 @@ public class Job2Reducer extends  Reducer<Text, Text, Text, Text> {
 				topByUser.put(String.valueOf(topKey), new String[10]);
 			}
 
-			Util.insert(data.toString(), topByUser.get(topKey));
+			Util.insertInOrderByScore(data.toString(), topByUser.get(topKey));
 		}
 		
 	}

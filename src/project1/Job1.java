@@ -14,7 +14,7 @@ public class Job1 {
 	public static int minYear = 0;
 	public static int maxYear = 0;
 
-	public static void main(String[] args) throws Exception {
+	public static int main(String[] args) throws Exception {
 		Job job = new Job(new Configuration(), "Job1");
 		job.setJarByClass(Job1.class);
 		
@@ -47,6 +47,6 @@ public class Job1 {
 		}
 		job.setNumReduceTasks(numReduceTasks);
 		
-		job.waitForCompletion(true);
+		return job.waitForCompletion(true) ? 0:1;
 	}
 }

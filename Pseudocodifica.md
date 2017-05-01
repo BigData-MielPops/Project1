@@ -40,17 +40,17 @@
 ## Terzo task (Opzionale) - 2x MapReduces version
 ##### Map(key, record):
         if score >= 4:
-            emit (prodID, userId)
+            emit (prodId, userId)
 ##### Reduce(key, record):
-        for i=0; i<list.length; i++:
-            user1 = list[i].userId
-                 for j=i; j<list.length; j++:
-                    user2 = value[j].userId
+        for i=0; i<values.length; i++:
+            user1 = values[i]
+                 for j=i+1; j<values.length; j++:
+                    user2 = values[j]
                     newKey = orderCouple(user1, user2)
-                    emit (newKey, prodId)
+                    emit (newKey, prodId) //prodId is the old key, supposing an user can't give 2 reviews
 ##### Map2(key, record):
         newKey = (user1, user2)
-        emit (newKey, prodID)
+        emit (newKey, prodId)
 ##### Reduce2(key, records):
         if records.length >= 3
             emit (key, records.toString())
@@ -59,14 +59,14 @@
 ## Terzo task (Opzionale) - 1x MapReduce, RAM intensive
 ##### Map(key, record):
         if score >= 4:
-            emit (prodID, userId)
+            emit (prodId, userId)
 #####
     create global OrderedMap<coppia di utenti, lista di prodotti> results
 ##### Reduce(key, records):
-        for i=0; i<list.length; i++:
-            user1 = list[i].userId
-                 for j=i; j<list.length; j++:
-                    user2 = value[j].userId
+        for i=0; i<values.length; i++:
+            user1 = values[i]
+                 for j=i+1; j<values.length; j++:
+                    user2 = values[j]
                     results.insert(value.userId + value2.userId, prodId)
 ##### CleanUp():
         for each key, value in results

@@ -1,10 +1,10 @@
 package project1;
 
 public class Util {
-	
+
 	private static String separator = "\t";
-	
-	public static void insert(String val, String[] floats){
+
+	public static void insertInOrderByScore(String val, String[] floats){
 		System.out.println("==insert==");
 		System.out.println(val);
 		int i;
@@ -26,8 +26,18 @@ public class Util {
 				floats[k+1]=floats[k];            
 			}
 			System.out.println();
-			
+
 			floats[i]=val;
 		}
+	}
+
+	public static String orderCouple(String s1, String s2) {
+		return orderCouple(s1, s2, separator);
+	}
+
+	public static String orderCouple(String s1, String s2, String separator) {
+		if(s1.compareTo(s2) == -1) return s1 + separator + s2;
+		//else
+		return s2 + separator + s1;
 	}
 }
