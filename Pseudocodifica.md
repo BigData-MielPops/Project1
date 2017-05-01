@@ -5,7 +5,7 @@
         newKey = month + year + prodID
         emit (newKey, score)
 #####
-    create global OrderedMap results
+    create global OrderedMap<year+month, (avg, prodId)> results
 ##### Reduce(key, records):
         create Array[5] top5
         month, year, prodId = key.getData()
@@ -23,10 +23,10 @@
       
 ## Secondo task
 ##### Map(key, record):
-        value = (prodId, score)
+        value = (score, prodId)
         emit (userID, value)
 #####
-    create global OrderedMap results
+    create global OrderedMap<userId, (score, prodId)> results
 ##### Reduce(key, records):
         create Array[10] top10
         for each value in records:

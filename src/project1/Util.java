@@ -2,6 +2,8 @@ package project1;
 
 public class Util {
 	
+	private static String separator = "\t";
+	
 	public static void insert(String val, String[] floats){
 		System.out.println("==insert==");
 		System.out.println(val);
@@ -10,7 +12,7 @@ public class Util {
 			try {
 				System.out.print(floats[i] + " ");
 				System.out.println();
-				if(Float.parseFloat(floats[i].split("\t")[0]) < Float.parseFloat(val.split("\t")[0]))
+				if(Float.parseFloat(floats[i].split(separator)[0]) < Float.parseFloat(val.split(separator)[0]))
 					break;
 			}
 			catch (Exception e) {
