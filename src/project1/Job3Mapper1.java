@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class Job3Ver1Mapper1 extends Mapper<Object, Text, Text, Text> {
+public class Job3Mapper1 extends Mapper<Object, Text, Text, Text> {
 
 	private static String separator = "\t";
 	

@@ -22,7 +22,7 @@ public class Job3Ver1 extends Configured implements Tool {
 		Job job = new Job(conf, "First MR");
 		job.setJarByClass(Job3Ver1.class);
 		
-		job.setMapperClass(Job3Ver1Mapper1.class);
+		job.setMapperClass(Job3Mapper1.class);
 		job.setReducerClass(Job3Ver1Reducer1.class);
 		
 		job.setMapOutputKeyClass(Text.class);

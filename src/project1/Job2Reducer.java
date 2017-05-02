@@ -19,7 +19,7 @@ public class Job2Reducer extends  Reducer<Text, Text, Text, Text> {
 		{
 			String topKey = key.toString();
 			if(topByUser.get(topKey) == null) {
-				topByUser.put(String.valueOf(topKey), new String[10]);
+				topByUser.put(topKey, new String[10]);
 			}
 
 			Util.insertInOrderByScore(data.toString(), topByUser.get(topKey));
