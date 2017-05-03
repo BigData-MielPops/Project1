@@ -62,3 +62,4 @@ local.properties
 .worksheet
 data/
 .ipynb_checkpoints/
+*.crc
