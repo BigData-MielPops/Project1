@@ -16,4 +16,4 @@ CREATE TABLE top_favourite_products AS
 	GROUP BY ups.user_id
 	ORDER BY ups.user_id ASC;
 	
-INSERT OVERWRITE LOCAL DIRECTORY '/home/csv/job2' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM top_five_products;
+INSERT OVERWRITE LOCAL DIRECTORY '/home/csv/job2' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM top_favourite_products;
