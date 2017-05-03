@@ -44,10 +44,11 @@
 ##### Reduce(key, record):
         for i=0; i<values.length; i++:
             user1 = values[i]
-                 for j=i+1; j<values.length; j++:
+                 for j=0; j<values.length; j++: 
                     user2 = values[j]
-                    newKey = orderCouple(user1, user2)
-                    emit (newKey, prodId) //prodId is the old key, supposing an user can't give 2 reviews
+					if user1 != user2:
+						newKey = orderCouple(user1, user2)
+						emit (newKey, prodId) //prodId is the old key
 ##### Map2(key, record):
         newKey = (user1, user2)
         emit (newKey, prodId)
@@ -65,9 +66,10 @@
 ##### Reduce(key, records):
         for i=0; i<values.length; i++:
             user1 = values[i]
-                 for j=i+1; j<values.length; j++:
-                    user2 = values[j]
-                    results.insert(value.userId + value2.userId, prodId)
+                 for j=0; j<values.length; j++:
+					if user1 != user2:
+						user2 = values[j]
+						results.insert(value.userId + value2.userId, prodId)
 ##### CleanUp():
         for each key, value in results
             if value.lenght >= 3

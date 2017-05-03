@@ -36,7 +36,7 @@ public class Util {
 	}
 
 	public static String orderCouple(String s1, String s2, String separator) {
-		if(s1.compareTo(s2) == -1) return s1 + separator + s2;
+		if(s1.compareTo(s2) < 0) return s1 + separator + s2;
 		//else
 		return s2 + separator + s1;
 	}
