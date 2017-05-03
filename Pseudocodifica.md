@@ -44,7 +44,7 @@
 ##### Reduce(key, record):
         for i=0; i<values.length; i++:
             user1 = values[i]
-                 for j=0; j<values.length; j++: 
+                 for j=i+1; j<values.length; j++: 
                     user2 = values[j]
 					if user1 != user2:
 						newKey = orderCouple(user1, user2)
@@ -66,7 +66,7 @@
 ##### Reduce(key, records):
         for i=0; i<values.length; i++:
             user1 = values[i]
-                 for j=0; j<values.length; j++:
+                 for j=i+1; j<values.length; j++:
 					if user1 != user2:
 						user2 = values[j]
 						results.insert(value.userId + value2.userId, prodId)

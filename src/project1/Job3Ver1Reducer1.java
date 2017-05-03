@@ -19,7 +19,7 @@ public class Job3Ver1Reducer1 extends  Reducer<Text, Text, Text, Text> {
 		
 		for (int i = 0; i < valueList.size(); i++) {
 			Text user1 = valueList.get(i);
-			for (int j = 0; j < valueList.size(); j++) {
+			for (int j = i+1; j < valueList.size(); j++) {
 				Text user2 = valueList.get(j); 
 				if(user1.compareTo(user2) != 0) {
 					Text orderedCouple = new Text(Util.orderCouple(user1.toString(), user2.toString(), separator));
