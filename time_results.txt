@@ -3,7 +3,7 @@ job	MByte	rows	Mapreduce-time	Mapreduce-cluster-time	hive-time	hive-cluster-time
 1	26	56463	17	
 1	70	141210	23	
 1	184	361968	31	
-2	5	8824	15	
+2	5	8824	15	?	7
 2	26	56463	19	
 2	70	141210	24	
 2	184	361968	42	
