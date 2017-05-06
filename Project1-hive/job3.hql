@@ -1,8 +1,10 @@
+DROP TABLE 1999_2006;
+
 CREATE TABLE IF NOT EXISTS 1999_2006 (id BIGINT, product_id STRING, user_id STRING, profile_name STRING, 
 helpfulness_num INT, helpfulness_den INT, score INT, time BIGINT, summary STRING, text STRING) 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
 
-LOAD DATA LOCAL INPATH '/home/data/1999_2006.csv' OVERWRITE INTO TABLE 1999_2006;
+LOAD DATA LOCAL INPATH '/home/workspace/data/1999_2006.csv' OVERWRITE INTO TABLE 1999_2006;
 
 DROP TABLE user_similarity;
 
@@ -21,4 +23,4 @@ CREATE TABLE user_similarity AS
 	WHERE upn.num_products >= 3;
 
 
-INSERT OVERWRITE LOCAL DIRECTORY '/home/csv/job3' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM user_similarity;
+INSERT OVERWRITE LOCAL DIRECTORY '/home/workspace/Project1-hive/results/job3' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM user_similarity;
