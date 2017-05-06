@@ -58,8 +58,8 @@ public final class Job1 {
 				averageAndProductListByMonth.mapToPair(reGroupedLine ->
 					new Tuple2<>(
 							reGroupedLine._1(),
-								Arrays.asList((takeFirst(reGroupedLine._2(), 5))).stream().filter(Objects::nonNull).collect(Collectors.toList())
-							)
+							Arrays.asList((takeFirst(reGroupedLine._2(), 5))).stream().filter(Objects::nonNull).collect(Collectors.toList())
+						)
 				);
 		
 		topFiveProductsByMonth.coalesce(1).sortByKey(true).saveAsTextFile(args[1]);
