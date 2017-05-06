@@ -1,8 +1,10 @@
+DROP TABLE 1999_2006;
+
 CREATE TABLE IF NOT EXISTS 1999_2006 (id BIGINT, product_id STRING, user_id STRING, profile_name STRING, 
 helpfulness_num INT, helpfulness_den INT, score INT, time BIGINT, summary STRING, text STRING) 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
 
-LOAD DATA LOCAL INPATH '/home/data/1999_2006.csv' OVERWRITE INTO TABLE 1999_2006;
+LOAD DATA LOCAL INPATH '/home/workspace/data/1999_2006.csv' OVERWRITE INTO TABLE 1999_2006;
 
 DROP TABLE top_favourite_products;
 
@@ -16,4 +18,4 @@ CREATE TABLE top_favourite_products AS
 	GROUP BY ups.user_id
 	ORDER BY ups.user_id ASC;
 	
-INSERT OVERWRITE LOCAL DIRECTORY '/home/csv/job2' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM top_favourite_products;
+INSERT OVERWRITE LOCAL DIRECTORY '/home/workspace/Project1-hive/results/job2' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM top_favourite_products;

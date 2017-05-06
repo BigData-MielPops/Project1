@@ -1,8 +1,10 @@
+DROP TABLE 1999_2006;
+
 CREATE TABLE IF NOT EXISTS 1999_2006 (id BIGINT, product_id STRING, user_id STRING, profile_name STRING, 
 helpfulness_num INT, helpfulness_den INT, score INT, time BIGINT, summary STRING, text STRING) 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
 
-LOAD DATA LOCAL INPATH '/home/data/1999_2006.csv' OVERWRITE INTO TABLE 1999_2006;
+LOAD DATA LOCAL INPATH '/home/workspace/data/1999_2006.csv' OVERWRITE INTO TABLE 1999_2006;
 
 DROP TABLE top_five_products;
 
@@ -19,4 +21,4 @@ CREATE TABLE top_five_products AS
 	WHERE mpl.top_position <= 5
 	GROUP BY mpl.month;
 	
-INSERT OVERWRITE LOCAL DIRECTORY '/home/csv/job1' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM top_five_products;
+INSERT OVERWRITE LOCAL DIRECTORY '/home/workspace/Project1-hive/results/job1' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT * FROM top_five_products;
