@@ -206,6 +206,35 @@ A1048CYU0OV4O8	A1GB1Q193DNFGR	[B00004CI84, B00004CXX9, B00004RYGX]
 A1048CYU0OV4O8	A1HWMNSQF14MP8	[B00004CI84, B00004CXX9, B00004RYGX]
 ```
 ## Tempistiche
+Tutti i test locali sono stati eseguiti su un container docker a cui sono stati dedicati 8 GB di memoria e 4 core @ 2.4 GHz, mentre i test sul cluster sono stati effettuati su cluster.inf.uniroma3.it.
+
 I tempi di esecuzione su Spark sono stati calcolati partendo dal secondo in cui il nodo ha accettato il task, fino al completamento.
 
 I tempi di esecuzione di Hive e Map-Reduce sono stati calcolati dal secondo di inizio della prima Map, fino al completamento.
+
+Oltre ai dataset proposti, sono state eseguiti test su due dataset più grandi, il primo ottenuto dall'unione di tutti i dataset, il secondo duplicando il primo. Abbiamo ottenuto quindi un dataset da circa 300 MB e un dataset da circa 600 MB con molte ripetizioni.
+
+### Job 1
+![Job1 - Local](images/job1local.png)
+![Job1 - Cluster](images/job1cluster.png)
+![Job1 - Map-Reduce](images/job1mr.png)
+Nei grafici di confronto di Hive e Spark è riportata una terza linea che rappresenta l'andamento su cluster escludendo il tempo di overhead.
+![Job1 - Hive](images/job1hive.png)
+![Job1 - Spark](images/job1spark.png)
+
+### Job 2
+![Job2 - Local](images/job2local.png)
+L'andamento di Hive è caratterizzato dal fatto che nel 5° esperimento (sul dataset da circa 300 MB) il numero di Map allocate è minore e per questo risulta un tempo di overhead minore. È riportata dunque anche una proiezione dell'andamento (linea tratteggiata) escludendo l'outlier.
+![Job2 - Cluster](images/job2cluster.png)
+![Job2 - Map-Reduce](images/job2mr.png)
+Nel grafico di confronto di Hive è riportata una terza linea che rappresenta l'andamento su cluster escludendo il tempo di overhead.
+![Job2 - Hive](images/job2hive.png)
+![Job2 - Spark](images/job2spark.png)
+
+### Job 3
+Poiché sono state scritte due algoritmi di Map-Reduce per il job 3, di seguito sono riportati gli esperimenti per entrambi gli algoritmi. Per quanto riguarda l'algoritmo RAM intensive, si precisa che sui dataset più grandi (da 300 MB in su) il job falliva sia in locale che su cluster per mancanza di memoria. MapReduce v1 (first), (second) e total sono tempi relativi al primo algoritmo Map-Reduce, mentre MapReduce v2 al secondo. 
+![Job3 - Local](images/job3local.png)
+![Job3 - Cluster](images/job3cluster.png)
+![Job3 - Map-Reduce](images/job3mr.png)
+![Job3 - Hive](images/job3hive.png)
+![Job3 - Spark](images/job3spark.png)
