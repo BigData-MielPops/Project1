@@ -1,4 +1,5 @@
 # Rapporto Finale
+Gruppo MielPops - Gaetano Bonofiglio, Veronica Iovinella
 ## Job 1
 ### Pseudocodifica
 ### Map-Reduce
