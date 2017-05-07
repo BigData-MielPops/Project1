@@ -205,3 +205,7 @@ A1048CYU0OV4O8	A1FJOY14X3MUHE	[B00004CI84, B00004CXX9, B00004RYGX]
 A1048CYU0OV4O8	A1GB1Q193DNFGR	[B00004CI84, B00004CXX9, B00004RYGX]
 A1048CYU0OV4O8	A1HWMNSQF14MP8	[B00004CI84, B00004CXX9, B00004RYGX]
 ```
+## Tempistiche
+I tempi di esecuzione su Spark sono stati calcolati partendo dal secondo in cui il nodo ha accettato il task, fino al completamento.
+
+I tempi di esecuzione di Hive e Map-Reduce sono stati calcolati dal secondo di inizio della prima Map, fino al completamento.
