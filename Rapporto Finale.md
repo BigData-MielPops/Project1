@@ -49,7 +49,7 @@ results = csv
         .reduceByKey((scoreA + scoreB, countA + countB))
         .mapToPair(month, average)
         .groupByKey(1 node)
-        .mapToPair(iterable.getTop5())
+        .mapToPair(iterable.getTop5()).sortByKey(true)
 ```
 
 ### Output (prime 10 righe)
@@ -102,7 +102,7 @@ ORDER BY ups.user_id ASC;
 results = csv
         .mapToPair(userId, (score, productId))
         .groupByKey(1 node)
-        .mapToPair(iterable.getTop10())
+        .mapToPair(iterable.getTop10()).sortByKey(true)
 ```
 
 ### Output (prime 10 righe)
@@ -190,7 +190,7 @@ results = userScoreByProduct
         .mapToPair(orderCouple(user1, user2), productId)
         .distinct(1 node)
         .groupByKey(1 node)
-        .filter(productList >= 3)
+        .filter(productList >= 3).sortByKey(true)
 ```
 ### Output (prime 10 righe)
 ##### input 1999_2006.csv:

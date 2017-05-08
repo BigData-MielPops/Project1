@@ -18,8 +18,8 @@ public final class Job3 {
 	private static JavaSparkContext ctx;
 
 	public static void main(String[] args) throws Exception {
-		if (args.length < 2) {
-			System.err.println("Usage: Job3 <input file> <output file>");
+		if (args.length < 1) {
+			System.err.println("Usage: Job3 <input file> [<output file>]");
 			System.exit(1);
 		}
 		SparkConf sparkConf = new SparkConf().setAppName("Job3");
@@ -49,8 +49,17 @@ public final class Job3 {
 		
 		JavaPairRDD<String, Iterable<String>> similarUsersAndCommonProducts = joinOnProduct.groupByKey(1)
 				.filter(line -> gte(line._2(), 3));
-
-		similarUsersAndCommonProducts.coalesce(1).sortByKey(true).saveAsTextFile(args[1]);
+		
+		
+		if (args.length > 1)
+			similarUsersAndCommonProducts.coalesce(1).sortByKey(true).saveAsTextFile(args[1]);
+		else {
+			List<Tuple2<String, Iterable<String>>> output = similarUsersAndCommonProducts.coalesce(1).sortByKey(true).collect();
+			for
+			(Tuple2<?,?> tuple	 :	output	) {
+				System.out.println(tuple._1() + ": " + tuple._2());
+			}
+		}
 		
 		ctx.stop();
 	}
