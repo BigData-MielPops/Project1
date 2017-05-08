@@ -27,7 +27,7 @@ public final class Job2 {
 		ctx = new JavaSparkContext(sparkConf);
 
 
-		JavaRDD<String> csvLines = ctx.textFile(args[0], 1);
+		JavaRDD<String> csvLines = ctx.textFile(args[0]);
 		JavaRDD<List<String>> lines = csvLines.map(s -> new ArrayList<String>(Arrays.asList(s.split(separator))));
 
 		JavaPairRDD<String, String> productScoreByUser =
@@ -46,13 +46,13 @@ public final class Job2 {
 						reGroupedLine._1(),
 						Arrays.asList((takeFirst(reGroupedLine._2(), 10))).stream().filter(Objects::nonNull).collect(Collectors.toList())
 						)
-						);
+						).sortByKey(true);
 
 
 		if (args.length > 1)
-			topTenProductsByUser.coalesce(1).sortByKey(true).saveAsTextFile(args[1]);
+			topTenProductsByUser.saveAsTextFile(args[1]);
 		else {
-			List<Tuple2<String, List<String>>> output = topTenProductsByUser.coalesce(1).sortByKey(true).collect();
+			List<Tuple2<String, List<String>>> output = topTenProductsByUser.collect();
 			for
 			(Tuple2<?,?> tuple	 :	output	) {
 				System.out.println(tuple._1() + ": " + tuple._2());
