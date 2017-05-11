@@ -188,7 +188,7 @@ results = userScoreByProduct
         .join(userScoreByProduct on productId)
         .filter(user1 != user2)
         .mapToPair(orderCouple(user1, user2), productId)
-        .distinct(1 node)
+        .distinct()
         .groupByKey(1 node)
         .filter(productList >= 3).sortByKey(true)
 ```
@@ -207,7 +207,7 @@ A1048CYU0OV4O8	A1GB1Q193DNFGR	[B00004CI84, B00004CXX9, B00004RYGX]
 A1048CYU0OV4O8	A1HWMNSQF14MP8	[B00004CI84, B00004CXX9, B00004RYGX]
 ```
 ## Tempistiche
-Tutti i test locali sono stati eseguiti su un container docker a cui sono stati dedicati 8 GB di memoria e 4 core @ 2.4 GHz, mentre i test sul cluster sono stati effettuati su cluster.inf.uniroma3.it. Map-Reduce e Spark sono stati eseguiti da riga di comando sul Node1, mentre Hive è stato utilizzato dalla UI di Ambari che a sua volta ha delegato il task ad un nodo del cluster aggiungendo più overhead nel caso non venisse scelto il Node1 come resource manager.
+Tutti i test locali sono stati eseguiti su un container docker a cui sono stati dedicati 8 GB di memoria e 4 core @ 2.4 GHz, mentre i test sul cluster sono stati effettuati su cluster.inf.uniroma3.it. Map-Reduce e Spark sono stati eseguiti da riga di comando sul Node1, mentre Hive è stato utilizzato dalla UI di Ambari che a sua volta ha delegato i task ad un nodo del cluster aggiungendo più overhead nel caso non venisse scelto il Node1 come resource manager.
 
 I tempi di esecuzione su Spark sono stati calcolati partendo dal secondo in cui il nodo ha accettato il task, fino al completamento.
 

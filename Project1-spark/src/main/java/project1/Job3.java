@@ -26,7 +26,7 @@ public final class Job3 {
 		ctx = new JavaSparkContext(sparkConf);
 		
 		
-		JavaRDD<String> csvLines = ctx.textFile(args[0], 1);
+		JavaRDD<String> csvLines = ctx.textFile(args[0]);
 		JavaRDD<List<String>> lines = csvLines.map(s -> new ArrayList<String>(Arrays.asList(s.split(separator))));
 
 		JavaPairRDD<String, Tuple2<String, Integer>> userScoreByProduct =
@@ -45,16 +45,16 @@ public final class Job3 {
 							Util.orderCouple(line._2()._1()._1(), line._2()._2()._1(), separator), // (u1	u2)
 							line._1() // product
 						) 
-					).distinct(1);
+					).distinct();
 		
 		JavaPairRDD<String, Iterable<String>> similarUsersAndCommonProducts = joinOnProduct.groupByKey(1)
-				.filter(line -> gte(line._2(), 3));
+				.filter(line -> gte(line._2(), 3)).sortByKey(true);
 		
 		
 		if (args.length > 1)
-			similarUsersAndCommonProducts.coalesce(1).sortByKey(true).saveAsTextFile(args[1]);
+			similarUsersAndCommonProducts.saveAsTextFile(args[1]);
 		else {
-			List<Tuple2<String, Iterable<String>>> output = similarUsersAndCommonProducts.coalesce(1).sortByKey(true).collect();
+			List<Tuple2<String, Iterable<String>>> output = similarUsersAndCommonProducts.collect();
 			for
 			(Tuple2<?,?> tuple	 :	output	) {
 				System.out.println(tuple._1() + ": " + tuple._2());
