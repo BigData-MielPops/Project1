@@ -12,7 +12,17 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class Job3Ver1 extends Configured implements Tool {
 
+	private static int numReduceTasksForMR2 = 1;
+	
 	public int run(String[] args) throws Exception {
+		
+		try {
+			numReduceTasksForMR2 = Integer.parseInt(args[3]);
+		}
+		catch (Exception e) {
+			System.err.println("No year arguments given, will use only " + numReduceTasksForMR2 + 
+					   " Reducer" + ((numReduceTasksForMR2 !=1)? "s":"") + ".");
+		}
 		
 		Configuration conf = new Configuration();
 		
@@ -24,6 +34,8 @@ public class Job3Ver1 extends Configured implements Tool {
 		
 		job.setMapperClass(Job3Mapper1.class);
 		job.setReducerClass(Job3Ver1Reducer1.class);
+		
+		job.setNumReduceTasks(1);
 		
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(Text.class);
@@ -44,7 +56,8 @@ public class Job3Ver1 extends Configured implements Tool {
 
 		job2.setMapperClass(Job3Ver1Mapper2.class);
 		job2.setReducerClass(Job3Ver1Reducer2.class);
-		job2.setNumReduceTasks(1);
+		
+		job2.setNumReduceTasks(numReduceTasksForMR2);
 
 		job2.setMapOutputKeyClass(Text.class);
 		job2.setMapOutputValueClass(Text.class);
@@ -59,8 +72,8 @@ public class Job3Ver1 extends Configured implements Tool {
 	}
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 3) {
-			System.err.println("Enter valid number of arguments <InputFile> <IntermediateFile> <OutputDirectory>");
+		if (args.length < 3) {
+			System.err.println("Enter valid number of arguments <InputFile> <IntermediateFile> <OutputDirectory> [<Number of Reduce Tasks for second MR>]");
 			System.exit(0);
 		}
 		ToolRunner.run(new Configuration(), new Job3Ver1(), args);

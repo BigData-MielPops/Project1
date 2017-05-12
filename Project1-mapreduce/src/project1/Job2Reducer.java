@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class Job2Reducer extends  Reducer<Text, Text, Text, Text> {
 
 	private static String separator = "\t";
-	// ordered map using year+month as key, storing the top 5 products and their average score
+	// ordered map using userId as key, storing his/her top 10 products and their score
 	private static Map<String, String[]> topByUser = new TreeMap<String, String[]>();
 
 	public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException{	
