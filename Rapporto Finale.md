@@ -147,7 +147,14 @@ A107OAJUDTZXTC	(B000FDMLUO, 5)	(B0007SNZQ6, 5)	(B000CROPGQ, 2)
 
 ## Job 3
 ### Pseudocodifica
-Di seguito proponiamo due versione di Map-Reduce, la prima costruita con due task map-reduce, la seconda con un solo task map-reduce ma RAM intensive
+Di seguito sono proposte due versione di Map-Reduce, la prima costruita con due task, la seconda con un solo task ma che richiede molta piu memoria.
+
+La prima Map emette coppie product e score qualora quest'ultimo fosse maggiore o uguale a 4.
+La prima Reduce scorre in modo annidato ii valori risultati dalla Map confrontando ogni utente con quelli successivi. 
+A quel punto emette una coppia ordinata di utenti ed il prodotto in ogni iterazione, verificando che i due utenti siano diversi.
+La seconda Map riprende come chiave la coppia di utenti e come valore il prodotto. La seconda Reduce ha dunque a disposizione 
+la lista di prodotti comuni ai due utenti con score maggiore o uguale a 4. Se la lista è almeno lunga 3, allora la riga è emessa.
+
 ### 2x MapReduces version
 ```javascript
 Map(key, record):
@@ -169,6 +176,10 @@ Reduce2(key, records):
         emit (key, records.toString())
 ```
 ### 1x MapReduce, RAM intensive
+Questa versione funziona in modo simila alla prima ed a come sono stati implementati i Job 1 e 2. Al posto 
+di usare una seconda Map-Reduce è utilizzato un dizionario  ordinato di appoggio, che poi è elaborato 
+in fase di Cleanup.
+
 ```javascript
 Map(key, record):
     if score >= 4:
@@ -189,6 +200,9 @@ CleanUp():
         emit (key, value)
 ```
 ### Hive
+Una prima selezione fa il join del dataset con se stesso sulla base del prodotto e solo se lo score è maggiore o uguale a 4 e se gli utenti sono diversi. Vengono dunque usate funzioni di Hive per concatenare i due utenti in una coppia ordinata. 
+Una seconda selezione raggruppa i prodotti per coppia di utenti e vi affianca il conteggio dei prodotti. 
+Vengono dunque selezionati coppia di utenti e lista di prodotti se il conteggio è almeno 3.
 ```sql
 SELECT upn.user_couple, upn.products
 FROM
@@ -204,6 +218,9 @@ FROM
 WHERE upn.num_products >= 3;
 ```
 ### Spark
+Vengono mappati i risultati in coppie di prodotto e utente + scorescore, filtrando via se lo score è basso. 
+Viene fatto il join dei risultati con lpro stessi sul prodotto, filtrando se i 2 utenti sono uguali. La coppia è ordinata alfabeticamente e sono selezionate solo le righe con lista dei prodotti più lunga di 3.
+
 ```javascript
 userScoreByProduct = csv
         .mapToPair(productId, (userId, score))
@@ -232,7 +249,7 @@ A1048CYU0OV4O8	A1GB1Q193DNFGR	[B00004CI84, B00004CXX9, B00004RYGX]
 A1048CYU0OV4O8	A1HWMNSQF14MP8	[B00004CI84, B00004CXX9, B00004RYGX]
 ```
 ## Tempistiche
-Tutti i test locali sono stati eseguiti su un container docker a cui sono stati dedicati 8 GB di memoria e 4 core @ 2.4 GHz, mentre i test sul cluster sono stati effettuati su cluster.inf.uniroma3.it. Map-Reduce e Spark sono stati eseguiti da riga di comando sul Node1, mentre Hive è stato utilizzato dalla UI di Ambari che a sua volta ha delegato i task ad un nodo del cluster aggiungendo più overhead nel caso non venisse scelto il Node1 come resource manager.
+Tutti i test locali sono stati eseguiti su un container docker a cui sono stati dedicati 8 GB di memoria e 4 core @ 2.4 GHz, mentre i test sul cluster sono stati effettuati su cluster.inf.uniroma3.it. Map-Reduce e Spark sono stati eseguiti da riga di comando sul Node1, mentre Hive è stato utilizzato dalla UI di Ambari che a sua volta ha delegato i task ad un nodo del cluster aggiungendo più overhead nel caso non venisse scelto il Node1 come resource manager. Sarebbe possibile ridurre i tempi di overhead del Job 1 partizionando la tabella di Hive sulla base di mese e anno, tuttavia l'andamento della curva è risiltato il medesimo.
 
 I tempi di esecuzione su Spark sono stati calcolati partendo dal secondo in cui il nodo ha accettato il task, fino al completamento. **Inoltre sono stati calcolati a seguito della funzione saveAsTextFile** (utilizzando takeSample o take i tempi sarebbero stati inferiori ma non paragonabili agli altri, mentre la collect e l'output a schermo impiega più tempo). I tempi senza collect o la saveAsTextFile sono risultati costanti e privi di interesse.
 
@@ -244,7 +261,7 @@ Oltre ai dataset proposti, sono state eseguiti test su due dataset più grandi, 
 ![Job1 - Local](images/job1local.png)
 ![Job1 - Cluster](images/job1cluster.png)
 ![Job1 - Map-Reduce](images/job1mr.png)
-Nei grafici di confronto di Hive e Spark è riportata una terza linea che rappresenta l'andamento su cluster escludendo il tempo di overhead.
+Nei grafici di confronto di Hive e Spark è riportata una terza linea che rappresenta l'andamento su cluster escludendo il tempo di overhead, che può essere influenzato da  diversi fattori.
 ![Job1 - Hive](images/job1hive.png)
 ![Job1 - Spark](images/job1spark.png)
 
