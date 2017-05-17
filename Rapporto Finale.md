@@ -3,6 +3,10 @@ Gruppo MielPops - Gaetano Bonofiglio, Veronica Iovinella
 ## Job 1
 ### Pseudocodifica
 ### Map-Reduce
+
+Nella Map è stata creata una coppia in cui il primo valore è un tipo di dato composto da anno, mese e prodottoprodotto, mentre il valore è lo score. 
+La Reduce accumula i risultati in un dizionario che ha come chiave la coppia mese e anno e come valore un array ordinato per average score di 5 prodotti. Per permettere di scalarescalare, nel codice Java, è stato definito un **Partitioner **sulla base del range degli anni, che determina anche il numero di Reducer. La Cleanup del Reducer emette i dati contenuti nel dizionario.
+
 ```javascript
 Map(key, record):
     newKey = month + year + prodID
@@ -28,6 +32,9 @@ CleanUp():
 ```
 
 ### Hive
+Vengono inizialmente selezionati i prodotti e il loro score medio, raggruppati per mese e anno
+Viene dunque aggiunto un campo che contiene il numero di righe per quel mese e anno, e affiancato il conteggio a prodotti ordinati. L'ultima selezione taglia le righe quando la loro numerazione supera 5 e raggruppa i prodotti in una lista.
+
 ```sql
 SELECT mpl.month, COLLECT_LIST(mpl.product_id), COLLECT_LIST(mpl.avg_score) 
 FROM
@@ -43,9 +50,15 @@ GROUP BY mpl.month;
 ```
 
 ### Spark
+In spark si mappa inizialmente il dataset in una coppia 
+in cui la chiave è mese + anno + prodotto e il valore 
+è una coppia score e la costante 1. Vengono dunque conteggiati 
+i prodotti di quel mese sfruttando la costante e successivamente 
+calcolate le medie e raggruppate in un nodo per ottenere la top 5 ordinata.
+
 ```javascript
 results = csv
-        .mapToPair(month + product, (score, 1))
+        .mapToPair(month + year + product, (score, 1))
         .reduceByKey((scoreA + scoreB, countA + countB))
         .mapToPair(month, average)
         .groupByKey(1 node)
