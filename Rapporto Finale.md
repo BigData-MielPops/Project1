@@ -5,7 +5,7 @@ Gruppo MielPops - Gaetano Bonofiglio, Veronica Iovinella
 ### Map-Reduce
 
 Nella Map è stata creata una coppia in cui il primo valore è un tipo di dato composto da anno, mese e prodottoprodotto, mentre il valore è lo score. 
-La Reduce accumula i risultati in un dizionario che ha come chiave la coppia mese e anno e come valore un array ordinato per average score di 5 prodotti. Per permettere di scalarescalare, nel codice Java, è stato definito un **Partitioner **sulla base del range degli anni, che determina anche il numero di Reducer. La Cleanup del Reducer emette i dati contenuti nel dizionario.
+La Reduce accumula i risultati in un dizionario ordinato che ha come chiave la coppia mese e anno e come valore un array ordinato per average score di 5 prodotti e il loro score medio. Per permettere di scalarescalare, nel codice Java, è stato definito un **Partitioner **sulla base del range degli anni, che determina anche il numero di Reducer. La Cleanup del Reducer emette i dati contenuti nel dizionario.
 
 ```javascript
 Map(key, record):
@@ -32,8 +32,8 @@ CleanUp():
 ```
 
 ### Hive
-Vengono inizialmente selezionati i prodotti e il loro score medio, raggruppati per mese e anno
-Viene dunque aggiunto un campo che contiene il numero di righe per quel mese e anno, e affiancato il conteggio a prodotti ordinati. L'ultima selezione taglia le righe quando la loro numerazione supera 5 e raggruppa i prodotti in una lista.
+Vengono inizialmente selezionati i prodotti e il loro score medio, raggruppati per mese e anno.
+Viene dunque aggiunto un campo che contiene il numero della riga per quel mese e anno, ordinando il numero in base allo score medio più alto. L'ultima selezione taglia le righe quando la loro numerazione supera 5 e raggruppa i prodotti in una lista.
 
 ```sql
 SELECT mpl.month, COLLECT_LIST(mpl.product_id), COLLECT_LIST(mpl.avg_score) 
@@ -83,6 +83,12 @@ results = csv
 ## Job 2
 ### Pseudocodifica
 ### Map-Reduce
+Similmente al Job 1, la Map emette una coppia in cui la chiave è l'utente 
+e il valore è una coppia score + prodotto. La Reduce accumula i dati 
+in un dizionario ordinato in cui la chiave è l'utente e il valore è un array di 10 coppie 
+prodotto + score, ordinato per score. La Cleanup emette il dizionario. 
+A differenza del Job 1 non serve ridefinire un Partitioner perché quello di default va già bene, 
+per scalare è quindi data all'utente la possibilità di scegliere il numero di Reducer.
 ```javascript
 Map(key, record):
     value = (score, prodId)
@@ -100,6 +106,8 @@ CleanUp():
         emit (key, value)
 ```
 ### Hive
+Una prima selezione ottiene utente, prodotto e score, ordinando per utente e contando le righe con quell'utente in base allo sscore più alto. La seconda selezione taglia via le righe con numero maggiore di 10 e raggruppa i prodotti in una lista per ogni utente.
+
 ```sql
 SELECT ups.user_id, COLLECT_LIST(ups.product_id), COLLECT_LIST(ups.score) 
 FROM
@@ -111,6 +119,10 @@ GROUP BY ups.user_id
 ORDER BY ups.user_id ASC;
 ```
 ### Spark
+Viene mappata ogni riga in una coppia on cui la chiave è l'utente 
+e il valore è una coppia score + prodotto. Vengono dunque raggruppati i risultati 
+e sono selezionati i top 10 prodotti.
+
 ```javascript
 results = csv
         .mapToPair(userId, (score, productId))
