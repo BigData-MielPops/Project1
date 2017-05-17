@@ -5,7 +5,7 @@ Gruppo MielPops - Gaetano Bonofiglio, Veronica Iovinella
 ### Map-Reduce
 
 Nella Map è stata creata una coppia in cui il primo valore è un tipo di dato composto da anno, mese e prodottoprodotto, mentre il valore è lo score. 
-La Reduce accumula i risultati in un dizionario ordinato che ha come chiave la coppia mese e anno e come valore un array ordinato per average score di 5 prodotti e il loro score medio. Per permettere di scalarescalare, nel codice Java, è stato definito un **Partitioner **sulla base del range degli anni, che determina anche il numero di Reducer. La Cleanup del Reducer emette i dati contenuti nel dizionario.
+La Reduce accumula i risultati in un dizionario ordinato che ha come chiave la coppia mese e anno e come valore un array ordinato per average score di 5 prodotti e il loro score medio. Per permettere di scalarescalare, nel codice Java, è stato definito un **Partitioner** sulla base del range degli anni, che determina anche il numero di Reducer. La Cleanup del Reducer emette i dati contenuti nel dizionario.
 
 ```javascript
 Map(key, record):
