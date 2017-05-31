@@ -279,3 +279,6 @@ Poiché sono state scritte due algoritmi di Map-Reduce per il job 3, di seguito 
 ![Job3 - Map-Reduce](images/job3mr.png)
 ![Job3 - Hive](images/job3hive.png)
 ![Job3 - Spark](images/job3spark.png)
+
+## Conclusioni
+In generale Hive e Spark si sono comportati meglio di Map-Reduce, soprattutto in cluster dove la disponibilità di RAM è più elevata e riesce a favorire Spark. Quest'ultimo trova difficoltà (e talvolta anche dei failure) solo ad eseguire il Job 3, che prevede un join. In questo caso Hive e Map-Reduce hanno prestazioni generalmente migliori, soprattutto per il dataset più grande. Tutto sommato i risultati, salvo variabilità dei tempi di overhead, sono risultati congrui con le aspettative, anche per quanto riguarda l'ultimo dato raccolto su Spark. Hive ha un sorpreso su cluster, riuscendo a generare molte task Map-Reduce (fino a 60 Map e 20 Reduce per un solo job), utilizzando molto bene le risorse. Map-Reduce si è principalmente rivelato migliore in locale, dove lo sfruttamento possibile di risorse era comunque limitato, e l'ha spuntata il maggior controllo sulle operazioni.  
